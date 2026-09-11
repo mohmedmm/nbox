@@ -117,7 +117,7 @@ Tested on Windows 11 (CUDA 12.4, PyTorch 2.3+cu121, NVENC H.264 high-quality pro
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/nbox.git
+git clone https://github.com/mohmedmm/nbox.git
 cd nbox
 
 # Install dependencies

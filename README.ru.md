@@ -117,7 +117,7 @@
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/your-username/nbox.git
+git clone https://github.com/mohmedmm/nbox.git
 cd nbox
 
 # Установка зависимостей

@@ -117,7 +117,7 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/nbox.git
+git clone https://github.com/mohmedmm/nbox.git
 cd nbox
 
 # 安装依赖项
