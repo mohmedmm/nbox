@@ -20,8 +20,9 @@
   align-items: center !important;
   gap: 7px !important;
   padding: 5px 12px !important;
-  background: rgba(13, 17, 23, 0.82) !important;
-  backdrop-filter: blur(10px) !important;
+  background: rgba(8, 11, 17, 0.88) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-radius: 7px !important;
   cursor: pointer !important;
   user-select: none !important;
@@ -31,30 +32,30 @@
   letter-spacing: 0.4px !important;
   z-index: 2147483647 !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
 }
 
 /* ACTIVE STATE: Subtle Emerald Neon Square */
 .nbox-badge.nbox-on {
-  border: 1px solid rgba(0, 255, 170, 0.6) !important;
-  color: #00ffaa !important;
-  box-shadow: 0 0 10px rgba(0, 255, 170, 0.25) !important;
+  border: 1px solid rgba(0, 240, 160, 0.6) !important;
+  color: #00f0a0 !important;
+  box-shadow: 0 0 12px rgba(0, 240, 160, 0.25) !important;
 }
 
 .nbox-badge.nbox-on .nbox-square {
-  background: #00ffaa !important;
-  box-shadow: 0 0 6px #00ffaa !important;
+  background: #00f0a0 !important;
+  box-shadow: 0 0 8px #00f0a0 !important;
 }
 
-/* INACTIVE STATE: Dim Red/Gray Square */
+/* INACTIVE STATE: Dim Slate/Gray Square */
 .nbox-badge.nbox-off {
   border: 1px solid rgba(248, 81, 73, 0.5) !important;
-  color: #f85149 !important;
-  opacity: 0.8 !important;
+  color: #f87171 !important;
+  opacity: 0.82 !important;
 }
 
 .nbox-badge.nbox-off .nbox-square {
-  background: #f85149 !important;
+  background: #f87171 !important;
   box-shadow: none !important;
 }
 

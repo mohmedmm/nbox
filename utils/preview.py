@@ -24,7 +24,7 @@ class ComparisonSliderWidget(QWidget):
         self._upscaled_pixmap: QPixmap | None = None
 
         self._orig_label: str = "ORIGINAL (Input)"
-        self._upscaled_label: str = "DLSS5 / NEURAL (2K)"
+        self._upscaled_label: str = "nbox / NEURAL (2K)"
 
     def set_labels(self, orig_label: str, upscaled_label: str) -> None:
         self._orig_label = orig_label
@@ -78,10 +78,10 @@ class ComparisonSliderWidget(QWidget):
         h = self.height()
 
         # Background
-        painter.fillRect(0, 0, w, h, QColor(18, 20, 24))
+        painter.fillRect(0, 0, w, h, QColor(8, 11, 17))
 
         if not self._orig_pixmap and not self._upscaled_pixmap:
-            painter.setPen(QColor(110, 118, 129))
+            painter.setPen(QColor(100, 116, 139))
             font = QFont("Segoe UI", 11)
             font.setBold(True)
             painter.setFont(font)
@@ -116,12 +116,12 @@ class ComparisonSliderWidget(QWidget):
             painter.restore()
 
         # Draw divider line
-        pen = QPen(QColor(0, 220, 130), 2)
+        pen = QPen(QColor(0, 240, 160), 2)
         painter.setPen(pen)
         painter.drawLine(split_x, 0, split_x, h)
 
         # Draw handle circle
-        painter.setBrush(QColor(0, 220, 130))
+        painter.setBrush(QColor(0, 240, 160))
         painter.setPen(QPen(QColor(255, 255, 255), 2))
         painter.drawEllipse(QPoint(split_x, h // 2), 12, 12)
 
@@ -132,8 +132,8 @@ class ComparisonSliderWidget(QWidget):
     @staticmethod
     def _draw_badge(painter: QPainter, text: str, x: int, y: int, is_accent: bool) -> None:
         painter.save()
-        bg_color = QColor(0, 200, 115, 200) if is_accent else QColor(30, 35, 45, 190)
-        fg_color = QColor(0, 0, 0) if is_accent else QColor(240, 246, 252)
+        bg_color = QColor(0, 240, 160, 210) if is_accent else QColor(20, 28, 44, 200)
+        fg_color = QColor(4, 20, 11) if is_accent else QColor(241, 245, 249)
 
         font = QFont("Segoe UI", 9)
         font.setBold(True)

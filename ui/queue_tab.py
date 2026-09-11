@@ -87,7 +87,7 @@ class QueueWidget(QWidget):
     def add_item(self, path: str) -> None:
         dir_name = os.path.dirname(path)
         base, ext = os.path.splitext(os.path.basename(path))
-        out_path = os.path.join(dir_name, f"{base}_DLSS5_2K{ext}")
+        out_path = os.path.join(dir_name, f"{base}_nbox_2K{ext}")
 
         item = QueueItem(input_path=path, output_path=out_path)
         self._queue.append(item)

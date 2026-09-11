@@ -115,9 +115,10 @@ class MainWindow(QMainWindow):
         # Main Tab Widget
         self.tabs = QTabWidget()
         self.tabs.setStyleSheet("""
-            QTabWidget::pane { border: 1px solid #232a3b; background: #0b0e14; border-radius: 8px; }
-            QTabBar::tab { background: #131926; color: #8b949e; padding: 8px 18px; margin-right: 4px; border-top-left-radius: 6px; border-top-right-radius: 6px; font-weight: 600; }
-            QTabBar::tab:selected { background: #1a2233; color: #00e599; border-bottom: 2px solid #00e599; }
+            QTabWidget::pane { border: 1px solid #1a2336; background: #080b11; border-radius: 8px; }
+            QTabBar::tab { background: #0e131f; color: #64748b; padding: 8px 18px; margin-right: 4px; border-top-left-radius: 6px; border-top-right-radius: 6px; font-weight: 600; font-size: 13px; }
+            QTabBar::tab:selected { background: #141b29; color: #00f0a0; border-bottom: 2px solid #00f0a0; }
+            QTabBar::tab:hover:!selected { background: #111827; color: #94a3b8; }
         """)
 
         # Tab 1: Live Studio
@@ -149,11 +150,11 @@ class MainWindow(QMainWindow):
         header.setSpacing(12)
 
         title_lbl = QLabel("nbox")
-        title_lbl.setStyleSheet("font-size: 22px; font-weight: 800; color: #00e599; letter-spacing: -0.5px;")
+        title_lbl.setStyleSheet("font-size: 22px; font-weight: 800; color: #00f0a0; letter-spacing: -0.5px;")
         header.addWidget(title_lbl)
 
         sub_lbl = QLabel("Neural Video Enhancement & Super-Resolution Studio")
-        sub_lbl.setStyleSheet("color: #8b949e; font-size: 13px; margin-top: 4px;")
+        sub_lbl.setStyleSheet("color: #64748b; font-size: 13px; margin-top: 4px;")
         header.addWidget(sub_lbl)
 
         header.addStretch()
@@ -161,8 +162,8 @@ class MainWindow(QMainWindow):
         # Hardware Badge
         self.hw_badge = QLabel("⚡ Detecting GPU...")
         self.hw_badge.setStyleSheet(
-            "background-color: #12281c; border: 1px solid #00e599; border-radius: 14px; "
-            "color: #00e599; padding: 4px 14px; font-weight: 600; font-size: 12px;"
+            "background-color: #0b1d14; border: 1px solid #00d984; border-radius: 14px; "
+            "color: #00f0a0; padding: 4px 14px; font-weight: 600; font-size: 12px;"
         )
         header.addWidget(self.hw_badge)
 
@@ -219,7 +220,7 @@ class MainWindow(QMainWindow):
 
     def _create_hud_metrics_group(self) -> QFrame:
         frame = QFrame()
-        frame.setStyleSheet("background-color: #121721; border: 1px solid #232a3b; border-radius: 8px; padding: 8px;")
+        frame.setStyleSheet("background-color: #0e131f; border: 1px solid #1a2336; border-radius: 8px; padding: 8px;")
         grid = QGridLayout(frame)
         grid.setContentsMargins(12, 6, 12, 6)
 
@@ -299,8 +300,8 @@ class MainWindow(QMainWindow):
         if hw.backend == "cuda" and hw.primary_gpu:
             self.hw_badge.setText(f"⚡ {hw.primary_gpu.name} ({hw.primary_gpu.vram_mb} MB) | CUDA + NVENC Active")
             self.hw_badge.setStyleSheet(
-                "background-color: #12281c; border: 1px solid #00e599; border-radius: 14px; "
-                "color: #00e599; padding: 4px 14px; font-weight: 600; font-size: 12px;"
+                "background-color: #0b1d14; border: 1px solid #00d984; border-radius: 14px; "
+                "color: #00f0a0; padding: 4px 14px; font-weight: 600; font-size: 12px;"
             )
         else:
             self.hw_badge.setText(f"🖥️ Backend: {hw.backend.upper()}")
@@ -339,7 +340,7 @@ class MainWindow(QMainWindow):
             # Pre-populate default output path
             dir_name = os.path.dirname(path)
             base, ext = os.path.splitext(os.path.basename(path))
-            self._output_video_path = os.path.join(dir_name, f"{base}_DLSS5_2K{ext}")
+            self._output_video_path = os.path.join(dir_name, f"{base}_nbox_2K{ext}")
 
             # Update preview badges
             self.preview_widget.set_labels(
@@ -460,21 +461,21 @@ class MainWindow(QMainWindow):
         layout.setSpacing(16)
 
         # Header card
-        info_grp = QGroupBox("🌐 In-Browser DLSS 5 Video Neural Enhancer")
+        info_grp = QGroupBox("🌐 In-Browser nbox Video Neural Enhancer")
         info_layout = QVBoxLayout(info_grp)
         info_layout.setSpacing(10)
 
         desc = QLabel(
             "<b>Runs directly inside your web browser</b> (Chrome, Edge, Brave, etc.) without opening any separate window!<br>"
             "Auto-detects any <code>&lt;video&gt;</code> element on <b>YouTube, Twitch, Netflix, or any video site</b>.<br>"
-            "Injects a sleek <b>Green Square Watermark [ ■ DLSS 5: ON ]</b> in the corner of the video. Click it to toggle enhancement on/off anytime!"
+            "Injects a sleek <b>Green Square Watermark [ ■ nbox: ON ]</b> in the corner of the video. Click it to toggle enhancement on/off anytime!"
         )
         desc.setWordWrap(True)
-        desc.setStyleSheet("color: #c9d1d9; font-size: 13px; line-height: 1.5;")
+        desc.setStyleSheet("color: #94a3b8; font-size: 13px; line-height: 1.5;")
         info_layout.addWidget(desc)
 
         self.browser_status_lbl = QLabel("Detecting running web browsers...")
-        self.browser_status_lbl.setStyleSheet("color: #00e599; font-weight: bold;")
+        self.browser_status_lbl.setStyleSheet("color: #00f0a0; font-weight: bold;")
         info_layout.addWidget(self.browser_status_lbl)
 
         layout.addWidget(info_grp)
@@ -486,13 +487,13 @@ class MainWindow(QMainWindow):
 
         ext_steps = QLabel(
             "<b>To activate inside Google Chrome or Microsoft Edge:</b><br>"
-            "1. Open your browser and navigate to: <code style='color: #58a6ff;'>chrome://extensions</code> (or <code style='color: #58a6ff;'>edge://extensions</code>).<br>"
+            "1. Open your browser and navigate to: <code style='color: #38bdf8;'>chrome://extensions</code> (or <code style='color: #38bdf8;'>edge://extensions</code>).<br>"
             "2. Enable <b>Developer mode</b> (toggle switch in the top-right corner).<br>"
             "3. Click <b>Load unpacked</b> and select the <b>browser_extension</b> folder.<br>"
-            "4. Done! Every video on YouTube or any site will now automatically have DLSS 5 neural detail and the clickable green square!"
+            "4. Done! Every video on YouTube or any site will now automatically have nbox neural detail and the clickable green square!"
         )
         ext_steps.setWordWrap(True)
-        ext_steps.setStyleSheet("background: #121721; border: 1px solid #232a3b; border-radius: 8px; padding: 12px; color: #c9d1d9; line-height: 1.4;")
+        ext_steps.setStyleSheet("background: #0e131f; border: 1px solid #1a2336; border-radius: 8px; padding: 12px; color: #94a3b8; line-height: 1.4;")
         ext_layout.addWidget(ext_steps)
 
         btn_row1 = QHBoxLayout()
