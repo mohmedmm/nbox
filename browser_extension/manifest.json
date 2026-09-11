@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "nbox — Neural Video Enhancer",
+  "version": "1.1.0",
+  "description": "Subtle real-time neural video enhancement for YouTube and all streaming sites with customizable on-screen watermark.",
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end",
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "nbox Settings"
+  },
+  "icons": {
+    "128": "icons/icon128.png"
+  }
+}

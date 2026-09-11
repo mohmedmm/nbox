@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 280px;
+      margin: 0;
+      padding: 16px;
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #21262d;
+    }
+    .logo-square {
+      width: 14px;
+      height: 14px;
+      background: #00ffaa;
+      border-radius: 3px;
+      box-shadow: 0 0 8px #00ffaa;
+    }
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #00ffaa;
+      letter-spacing: 0.5px;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .setting-label {
+      color: #c9d1d9;
+      font-weight: 500;
+    }
+    /* Toggle switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 20px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #30363d;
+      transition: .2s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #fff;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #00e599;
+    }
+    input:checked + .slider:before {
+      transform: translateX(18px);
+      background-color: #0d1117;
+    }
+    .range-container {
+      margin-top: 10px;
+      padding: 10px;
+      background: #161b22;
+      border-radius: 8px;
+      border: 1px solid #21262d;
+    }
+    .range-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 6px;
+      color: #8b949e;
+    }
+    .range-val {
+      color: #00ffaa;
+      font-weight: 700;
+    }
+    input[type=range] {
+      width: 100%;
+      accent-color: #00ffaa;
+      cursor: pointer;
+    }
+    .footer {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #8b949e;
+      text-align: center;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span class="logo-square"></span>
+    <h3>nbox Enhancer</h3>
+  </div>
+
+  <div class="setting-row">
+    <span class="setting-label">Neural Enhancement</span>
+    <label class="switch">
+      <input type="checkbox" id="toggle-enabled" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <span class="setting-label">Show Video Watermark</span>
+    <label class="switch">
+      <input type="checkbox" id="toggle-watermark" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="range-container">
+    <div class="range-header">
+      <span>Clarity Level (Subtle)</span>
+      <span class="range-val" id="sharpness-val">35%</span>
+    </div>
+    <input type="range" id="sharpness-slider" min="10" max="100" value="35" step="5">
+  </div>
+
+  <div class="footer">
+    Subtle contrast-adaptive clarity active on YouTube and all video players.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

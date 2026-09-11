@@ -1,0 +1,76 @@
+/* nbox — Subtle Neural Video Enhancer */
+
+.nbox-canvas {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 2147483640 !important;
+  object-fit: contain !important;
+}
+
+/* Watermark Badge Container */
+.nbox-badge {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 5px 12px !important;
+  background: rgba(13, 17, 23, 0.82) !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 7px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+  z-index: 2147483647 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* ACTIVE STATE: Subtle Emerald Neon Square */
+.nbox-badge.nbox-on {
+  border: 1px solid rgba(0, 255, 170, 0.6) !important;
+  color: #00ffaa !important;
+  box-shadow: 0 0 10px rgba(0, 255, 170, 0.25) !important;
+}
+
+.nbox-badge.nbox-on .nbox-square {
+  background: #00ffaa !important;
+  box-shadow: 0 0 6px #00ffaa !important;
+}
+
+/* INACTIVE STATE: Dim Red/Gray Square */
+.nbox-badge.nbox-off {
+  border: 1px solid rgba(248, 81, 73, 0.5) !important;
+  color: #f85149 !important;
+  opacity: 0.8 !important;
+}
+
+.nbox-badge.nbox-off .nbox-square {
+  background: #f85149 !important;
+  box-shadow: none !important;
+}
+
+/* Square Icon */
+.nbox-badge .nbox-square {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 2px !important;
+  display: inline-block !important;
+  transition: background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.nbox-badge:hover {
+  transform: translateY(-1px) scale(1.02) !important;
+}
+
+.nbox-badge:active {
+  transform: translateY(1px) scale(0.98) !important;
+}
