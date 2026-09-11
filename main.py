@@ -28,6 +28,9 @@ def main() -> None:
     if os.path.exists(icon_path):
         app.setWindowIcon(QIcon(icon_path))
 
+    from ui.styles import THEME_STYLESHEET
+    app.setStyleSheet(THEME_STYLESHEET)
+
     win = MainWindow()
     win.show()
     sys.exit(app.exec())

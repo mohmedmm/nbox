@@ -13,9 +13,9 @@ def test_screenshot_assets():
 
 
 def test_obsidian_theme_tokens():
-    assert "#080b11" in THEME_STYLESHEET
-    assert "#00f0a0" in THEME_STYLESHEET
-    assert "#1a2336" in THEME_STYLESHEET
+    assert "#0a0d12" in THEME_STYLESHEET
+    assert "#00ff88" in THEME_STYLESHEET
+    assert "#25334c" in THEME_STYLESHEET
 
 
 def test_multilingual_docs_presence():
