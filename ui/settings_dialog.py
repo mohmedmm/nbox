@@ -50,8 +50,8 @@ class SettingsDialog(QDialog):
         hw = detect_hardware()
         gpu_name = hw.primary_gpu.name if hw.primary_gpu else "CPU Mode"
         vram_str = f"{hw.primary_gpu.vram_mb} MB" if hw.primary_gpu else "N/A"
-        hw_label = QLabel(f"⚡ <b>{gpu_name}</b> ({vram_str}) — Backend: <b>{hw.backend.upper()}</b>")
-        hw_label.setStyleSheet("color: #00e599; font-size: 13px;")
+        hw_label = QLabel(f"<b>{gpu_name}</b> ({vram_str}) — Backend: <b>{hw.backend.upper()}</b>")
+        hw_label.setStyleSheet("color: #00ff88; font-size: 13px;")
         form.addRow("Active Hardware:", hw_label)
 
         # Neural Model

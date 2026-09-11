@@ -54,11 +54,11 @@ class QueueWidget(QWidget):
 
         # Action buttons
         btn_layout = QHBoxLayout()
-        self.add_btn = QPushButton("➕ Add Video(s)...")
+        self.add_btn = QPushButton("Add Video(s)...")
         self.add_btn.clicked.connect(self._on_add_files)
         btn_layout.addWidget(self.add_btn)
 
-        self.remove_btn = QPushButton("🗑️ Remove Selected")
+        self.remove_btn = QPushButton("Remove Selected")
         self.remove_btn.clicked.connect(self._on_remove_selected)
         btn_layout.addWidget(self.remove_btn)
 
@@ -68,7 +68,7 @@ class QueueWidget(QWidget):
 
         btn_layout.addStretch()
 
-        self.play_btn = QPushButton("▶️ Play In Media Player")
+        self.play_btn = QPushButton("Play In Media Player")
         self.play_btn.clicked.connect(self._on_play_selected)
         btn_layout.addWidget(self.play_btn)
 

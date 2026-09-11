@@ -65,15 +65,15 @@ class PlayerSelectorWidget(QWidget):
 
         if self._detected_players:
             for p in self._detected_players:
-                self.combo.addItem(f"🎬 {p.spec.name}", p.exe_path)
+                self.combo.addItem(p.spec.name, p.exe_path)
         else:
-            self.combo.addItem("⚠️ No default player found", "")
+            self.combo.addItem("No default player found", "")
 
         # Always add Custom Player option
         if self._custom_player_path:
-            self.combo.addItem(f"📁 Custom: {os.path.basename(self._custom_player_path)}", self._custom_player_path)
+            self.combo.addItem(f"Custom: {os.path.basename(self._custom_player_path)}", self._custom_player_path)
         else:
-            self.combo.addItem("➕ Add Custom Player...", "__custom__")
+            self.combo.addItem("Add Custom Player...", "__custom__")
 
         self.combo.blockSignals(False)
         self._on_combo_index_changed(self.combo.currentIndex())

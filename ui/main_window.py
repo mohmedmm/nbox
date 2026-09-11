@@ -132,16 +132,16 @@ class MainWindow(QMainWindow):
         studio_layout.addWidget(self._create_hud_metrics_group())
         studio_layout.addWidget(self._create_controls_group())
 
-        self.tabs.addTab(studio_tab, "🎬 Real-Time Neural Studio")
+        self.tabs.addTab(studio_tab, "Real-Time Neural Studio")
 
         # Tab 2: Browser Video Live Upscaler
         self._browser_overlay = None
-        self.tabs.addTab(self._create_browser_tab(), "🌐 Browser Live (nbox)")
+        self.tabs.addTab(self._create_browser_tab(), "Browser Live (nbox)")
 
         # Tab 3: Batch Queue
         self.queue_widget = QueueWidget()
         self.queue_widget.play_requested.connect(self._launch_in_player)
-        self.tabs.addTab(self.queue_widget, "📋 Batch Queue")
+        self.tabs.addTab(self.queue_widget, "Batch Queue")
 
         root_layout.addWidget(self.tabs, stretch=1)
 
@@ -160,14 +160,14 @@ class MainWindow(QMainWindow):
         header.addStretch()
 
         # Hardware Badge
-        self.hw_badge = QLabel("⚡ Detecting GPU...")
+        self.hw_badge = QLabel("Detecting GPU...")
         self.hw_badge.setStyleSheet(
             "background-color: #0b1f14; border: 1px solid #00ff88; border-radius: 14px; "
             "color: #00ff88; padding: 5px 16px; font-weight: 700; font-size: 12px;"
         )
         header.addWidget(self.hw_badge)
 
-        settings_btn = QPushButton("⚙️ Settings")
+        settings_btn = QPushButton("Settings")
         settings_btn.clicked.connect(self._open_settings)
         header.addWidget(settings_btn)
 
@@ -183,7 +183,7 @@ class MainWindow(QMainWindow):
         self.path_lbl.setStyleSheet("color: #8b949e; font-style: italic;")
         file_row.addWidget(self.path_lbl, stretch=1)
 
-        browse_btn = QPushButton("📂 Browse Video...")
+        browse_btn = QPushButton("Browse Video...")
         browse_btn.clicked.connect(self._browse_video)
         file_row.addWidget(browse_btn)
 
@@ -199,7 +199,7 @@ class MainWindow(QMainWindow):
 
         meta_row.addWidget(QLabel("Target Output:"))
         self.res_combo = QComboBox()
-        self.res_combo.addItem("4x Neural Scale (240p → 1704x960 / 2K)", "auto_4x")
+        self.res_combo.addItem("4x Neural Scale (240p -> 1704x960 / 2K)", "auto_4x")
         self.res_combo.addItem("2K Ultra HD (2560x1440)", (2560, 1440))
         self.res_combo.addItem("1080p Full HD (1920x1080)", (1920, 1080))
         self.res_combo.addItem("4K Extreme (3840x2160)", (3840, 2160))
@@ -262,7 +262,7 @@ class MainWindow(QMainWindow):
         row1.addWidget(QLabel("Neural Model:"))
         self.model_combo = QComboBox()
         for mid, spec in REGISTRY.items():
-            self.model_combo.addItem(f"⚡ {spec.label}", mid)
+            self.model_combo.addItem(spec.label, mid)
         row1.addWidget(self.model_combo, stretch=1)
 
         # Player Selector
@@ -272,22 +272,22 @@ class MainWindow(QMainWindow):
 
         # Action Buttons
         row2 = QHBoxLayout()
-        self.start_btn = QPushButton("🚀 Start Neural Upscale")
+        self.start_btn = QPushButton("Start Neural Upscale")
         self.start_btn.setObjectName("PrimaryBtn")
         self.start_btn.clicked.connect(self._toggle_start_upscale)
         row2.addWidget(self.start_btn, stretch=2)
 
-        self.pause_btn = QPushButton("⏸️ Pause")
+        self.pause_btn = QPushButton("Pause")
         self.pause_btn.setEnabled(False)
         self.pause_btn.clicked.connect(self._toggle_pause)
         row2.addWidget(self.pause_btn)
 
-        self.cancel_btn = QPushButton("⏹️ Stop")
+        self.cancel_btn = QPushButton("Stop")
         self.cancel_btn.setEnabled(False)
         self.cancel_btn.clicked.connect(self._cancel_upscale)
         row2.addWidget(self.cancel_btn)
 
-        self.play_btn = QPushButton("🎬 Open in Player")
+        self.play_btn = QPushButton("Open in Player")
         self.play_btn.setEnabled(False)
         self.play_btn.clicked.connect(lambda: self._launch_in_player(self._output_video_path))
         row2.addWidget(self.play_btn, stretch=1)
@@ -298,13 +298,13 @@ class MainWindow(QMainWindow):
     def _detect_and_display_hardware(self) -> None:
         hw = detect_hardware()
         if hw.backend == "cuda" and hw.primary_gpu:
-            self.hw_badge.setText(f"⚡ {hw.primary_gpu.name} ({hw.primary_gpu.vram_mb} MB) | CUDA + NVENC Active")
+            self.hw_badge.setText(f"{hw.primary_gpu.name} ({hw.primary_gpu.vram_mb} MB) | CUDA + NVENC Active")
             self.hw_badge.setStyleSheet(
                 "background-color: #0b1f14; border: 1px solid #00ff88; border-radius: 14px; "
                 "color: #00ff88; padding: 5px 16px; font-weight: 700; font-size: 12px;"
             )
         else:
-            self.hw_badge.setText(f"🖥️ Backend: {hw.backend.upper()}")
+            self.hw_badge.setText(f"Backend: {hw.backend.upper()}")
 
     def _browse_video(self) -> None:
         file_path, _ = QFileDialog.getOpenFileName(
@@ -390,12 +390,12 @@ class MainWindow(QMainWindow):
     def _toggle_pause(self) -> None:
         if not self._active_worker:
             return
-        if self.pause_btn.text() == "⏸️ Pause":
+        if self.pause_btn.text() == "Pause":
             self._active_worker.pause()
-            self.pause_btn.setText("▶️ Resume")
+            self.pause_btn.setText("Resume")
         else:
             self._active_worker.resume()
-            self.pause_btn.setText("⏸️ Pause")
+            self.pause_btn.setText("Pause")
 
     def _cancel_upscale(self) -> None:
         if self._active_worker and self._active_worker.isRunning():
@@ -425,7 +425,7 @@ class MainWindow(QMainWindow):
 
         reply = QMessageBox.information(
             self,
-            "Upscale Complete! 🎉",
+            "Upscale Complete",
             f"Video successfully enhanced to 2K/4K!\n\nSaved to:\n{output_path}\n\nWould you like to play it now?",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
             QMessageBox.StandardButton.Yes,
@@ -440,7 +440,7 @@ class MainWindow(QMainWindow):
     def _reset_controls(self) -> None:
         self.start_btn.setEnabled(True)
         self.pause_btn.setEnabled(False)
-        self.pause_btn.setText("⏸️ Pause")
+        self.pause_btn.setText("Pause")
         self.cancel_btn.setEnabled(False)
 
     def _launch_in_player(self, video_path: str | None) -> None:
@@ -461,7 +461,7 @@ class MainWindow(QMainWindow):
         layout.setSpacing(16)
 
         # Header card
-        info_grp = QGroupBox("🌐 In-Browser nbox Video Neural Enhancer")
+        info_grp = QGroupBox("In-Browser nbox Video Neural Enhancer")
         info_layout = QVBoxLayout(info_grp)
         info_layout.setSpacing(10)
 
@@ -497,13 +497,13 @@ class MainWindow(QMainWindow):
         ext_layout.addWidget(ext_steps)
 
         btn_row1 = QHBoxLayout()
-        open_ext_btn = QPushButton("📂 Open 'browser_extension' Folder")
+        open_ext_btn = QPushButton("Open 'browser_extension' Folder")
         open_ext_btn.setObjectName("PrimaryBtn")
         open_ext_btn.setMinimumHeight(38)
         open_ext_btn.clicked.connect(self._open_extension_dir)
         btn_row1.addWidget(open_ext_btn)
 
-        copy_userscript_btn = QPushButton("📋 Copy Tampermonkey Userscript")
+        copy_userscript_btn = QPushButton("Copy Tampermonkey Userscript")
         copy_userscript_btn.setMinimumHeight(38)
         copy_userscript_btn.clicked.connect(self._copy_userscript)
         btn_row1.addWidget(copy_userscript_btn)
@@ -520,7 +520,7 @@ class MainWindow(QMainWindow):
         overlay_desc.setStyleSheet("color: #8b949e;")
         overlay_layout.addWidget(overlay_desc)
 
-        self.overlay_btn = QPushButton("🚀 Launch Floating Desktop Overlay")
+        self.overlay_btn = QPushButton("Launch Floating Desktop Overlay")
         self.overlay_btn.setMinimumHeight(36)
         self.overlay_btn.clicked.connect(self._toggle_browser_overlay)
         overlay_layout.addWidget(self.overlay_btn)
@@ -546,7 +546,7 @@ class MainWindow(QMainWindow):
             QApplication.clipboard().setText(content)
             QMessageBox.information(
                 self,
-                "Userscript Copied! 📋",
+                "Userscript Copied",
                 "The nbox Tampermonkey userscript has been copied to your clipboard!\n\nYou can paste it directly into Tampermonkey or Violentmonkey.",
             )
 
@@ -562,10 +562,10 @@ class MainWindow(QMainWindow):
         if self._browser_overlay and self._browser_overlay.isVisible():
             self._browser_overlay.close()
             self._browser_overlay = None
-            self.overlay_btn.setText("🚀 Launch Floating Desktop Overlay")
+            self.overlay_btn.setText("Launch Floating Desktop Overlay")
         else:
             self._browser_overlay = BrowserVideoOverlay()
             self._browser_overlay.show()
-            self.overlay_btn.setText("⏹️ Close Floating Desktop Overlay")
+            self.overlay_btn.setText("Close Floating Desktop Overlay")
 
 
