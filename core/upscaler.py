@@ -38,6 +38,9 @@ class UpscaleConfig:
     use_nvenc: bool = True
     crf: int = 18
     preview_interval: int = 1  # Emit preview every N frames (1 = every frame for real-time smoothness)
+    enable_temporal: bool = True
+    enable_wavelet: bool = True
+
 
 
 class VideoUpscaler:
@@ -86,7 +89,12 @@ class VideoUpscaler:
             progress_cb=model_download_cb,
         )
         from core.neural_sharpener import DLSS5NeuralSharpener
+        from core.temporal_engine import TemporalWarpEngine
+        from core.wavelet_engine import WaveletFrequencySynthesizer
+
         sharpener = DLSS5NeuralSharpener(mode="ultra_sharp", device=device)
+        temporal_engine = TemporalWarpEngine() if self.config.enable_temporal else None
+        wavelet_engine = WaveletFrequencySynthesizer(device=device) if self.config.enable_wavelet else None
 
         # Calculate output dimensions
         native_out_w = info.width * upsampler.scale
@@ -127,6 +135,13 @@ class VideoUpscaler:
                 # Neural upscaling pass + nbox subtle detail injection
                 enhanced = upsampler.enhance(raw_frame)
                 enhanced = sharpener.enhance(enhanced, intensity=0.35)
+
+                if wavelet_engine is not None:
+                    enhanced = wavelet_engine.synthesize(raw_frame, enhanced, hf_boost=1.12)
+
+                if temporal_engine is not None:
+                    enhanced = temporal_engine.process_frame(raw_frame, enhanced)
+
 
 
                 # Resize if user selected custom target resolution (e.g. strict 2K / 1440p)
