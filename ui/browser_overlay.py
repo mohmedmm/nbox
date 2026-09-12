@@ -111,12 +111,21 @@ class BrowserVideoOverlay(QWidget):
         rect = initial_rect or QRect(150, 150, 854, 480)
         self.setGeometry(rect)
 
-        # Exclude overlay itself from screen capture to prevent feedback loops
-        import ctypes
+        # Exclude overlay itself from screen capture to prevent recursive feedback loops
         try:
-            ctypes.windll.user32.SetWindowDisplayAffinity(int(self.winId()), 0x00000011)
+            import sys
+            if sys.platform == "win32":
+                import ctypes
+                from ctypes import wintypes
+                u32 = ctypes.windll.user32
+                u32.SetWindowDisplayAffinity.argtypes = [wintypes.HWND, wintypes.DWORD]
+                u32.SetWindowDisplayAffinity.restype = wintypes.BOOL
+                hwnd_val = int(self.winId())
+                if not u32.SetWindowDisplayAffinity(wintypes.HWND(hwnd_val), 0x00000011):
+                    u32.SetWindowDisplayAffinity(wintypes.HWND(hwnd_val), 0x00000001)
         except Exception:
             pass
+
 
         # State
         self.dlss_enabled: bool = True  # Green when True, Red/Gray when False

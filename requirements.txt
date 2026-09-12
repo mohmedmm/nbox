@@ -5,10 +5,9 @@ PyQt6-Qt6>=6.6.0
 # AI / Upscaling
 torch>=2.2.0
 torchvision>=0.17.0
-basicsr>=1.4.2
-realesrgan>=0.3.0
 einops>=0.7.0
 timm>=0.9.12
+
 
 # Video processing
 ffmpeg-python>=0.2.0

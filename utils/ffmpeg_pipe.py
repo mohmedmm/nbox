@@ -85,8 +85,15 @@ def frame_pipe(
         stdin=subprocess.PIPE,
         bufsize=out_width * out_height * 3 * 4,
     )
+    if use_nvenc and writer.poll() is not None:
+        writer = subprocess.Popen(
+            _writer_cmd(out_path, out_width, out_height, info.fps, info.path, crf, use_nvenc=False),
+            stdin=subprocess.PIPE,
+            bufsize=out_width * out_height * 3 * 4,
+        )
     try:
         yield reader, writer
+
     finally:
         if writer.stdin:
             try:

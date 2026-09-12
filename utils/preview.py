@@ -22,6 +22,8 @@ class ComparisonSliderWidget(QWidget):
 
         self._orig_pixmap: QPixmap | None = None
         self._upscaled_pixmap: QPixmap | None = None
+        self._scaled_orig: QPixmap | None = None
+        self._scaled_upscaled: QPixmap | None = None
 
         self._orig_label: str = "ORIGINAL (Input)"
         self._upscaled_label: str = "nbox / NEURAL (2K)"
@@ -35,7 +37,35 @@ class ComparisonSliderWidget(QWidget):
         """Receive BGR numpy arrays, convert to QPixmap and refresh view."""
         self._orig_pixmap = self._numpy_to_pixmap(orig_bgr)
         self._upscaled_pixmap = self._numpy_to_pixmap(upscaled_bgr)
+        self._rescale_pixmaps()
         self.update()
+
+    def resizeEvent(self, event) -> None:
+        super().resizeEvent(event)
+        self._rescale_pixmaps()
+
+    def _rescale_pixmaps(self) -> None:
+        w, h = self.width(), self.height()
+        if w <= 0 or h <= 0:
+            return
+        if self._orig_pixmap:
+            self._scaled_orig = self._orig_pixmap.scaled(
+                w, h,
+                Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+        else:
+            self._scaled_orig = None
+
+        if self._upscaled_pixmap:
+            self._scaled_upscaled = self._upscaled_pixmap.scaled(
+                w, h,
+                Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                Qt.TransformationMode.SmoothTransformation,
+            )
+        else:
+            self._scaled_upscaled = None
+
 
     @staticmethod
     def _numpy_to_pixmap(bgr: np.ndarray) -> QPixmap:
@@ -95,25 +125,16 @@ class ComparisonSliderWidget(QWidget):
         split_x = int(w * self._split_ratio)
 
         # Draw Upscaled side (Full background)
-        if self._upscaled_pixmap:
-            scaled_up = self._upscaled_pixmap.scaled(
-                w, h,
-                Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-                Qt.TransformationMode.SmoothTransformation,
-            )
-            painter.drawPixmap(0, 0, scaled_up)
+        if self._scaled_upscaled:
+            painter.drawPixmap(0, 0, self._scaled_upscaled)
 
         # Draw Original side (Clipped to left of slider)
-        if self._orig_pixmap:
+        if self._scaled_orig:
             painter.save()
             painter.setClipRect(0, 0, split_x, h)
-            scaled_orig = self._orig_pixmap.scaled(
-                w, h,
-                Qt.AspectRatioMode.KeepAspectRatioByExpanding,
-                Qt.TransformationMode.SmoothTransformation,
-            )
-            painter.drawPixmap(0, 0, scaled_orig)
+            painter.drawPixmap(0, 0, self._scaled_orig)
             painter.restore()
+
 
         # Draw divider line
         pen = QPen(QColor(0, 255, 136), 2)

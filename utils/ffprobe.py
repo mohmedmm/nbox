@@ -30,23 +30,50 @@ def probe(path: str) -> VideoInfo:
     raw = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, timeout=15)
     data = json.loads(raw)
 
-    video_stream = next(s for s in data["streams"] if s["codec_type"] == "video")
-    audio_streams = [s for s in data["streams"] if s["codec_type"] == "audio"]
+    video_streams = [s for s in data.get("streams", []) if s.get("codec_type") == "video"]
+    if not video_streams:
+        raise ValueError(f"No video stream found in {path}")
+    video_stream = video_streams[0]
+    audio_streams = [s for s in data.get("streams", []) if s.get("codec_type") == "audio"]
 
-    fps_num, fps_den = (int(x) for x in video_stream["r_frame_rate"].split("/"))
-    fps = fps_num / fps_den
+    fps = 30.0
+    for rate_key in ("r_frame_rate", "avg_frame_rate"):
+        val = video_stream.get(rate_key, "")
+        if "/" in val:
+            try:
+                num, den = (int(x) for x in val.split("/"))
+                if den > 0 and num > 0:
+                    fps = num / den
+                    break
+            except (ValueError, ZeroDivisionError):
+                pass
 
-    duration = float(data["format"].get("duration", 0))
-    frame_count = int(video_stream.get("nb_frames", 0)) or int(duration * fps)
+    try:
+        duration = float(data.get("format", {}).get("duration", 0) or 0)
+    except (ValueError, TypeError):
+        duration = 0.0
+
+    raw_frames = video_stream.get("nb_frames")
+    frame_count = 0
+    if raw_frames is not None and str(raw_frames).isdigit():
+        frame_count = int(raw_frames)
+    if frame_count <= 0 and duration > 0 and fps > 0:
+        frame_count = int(duration * fps)
+
+    try:
+        bitrate = int(data.get("format", {}).get("bit_rate", 0) or 0) // 1000
+    except (ValueError, TypeError):
+        bitrate = 0
 
     return VideoInfo(
         path=path,
-        width=int(video_stream["width"]),
-        height=int(video_stream["height"]),
+        width=int(video_stream.get("width", 0)),
+        height=int(video_stream.get("height", 0)),
         fps=fps,
         duration=duration,
         frame_count=frame_count,
-        codec=video_stream["codec_name"],
-        audio_codec=audio_streams[0]["codec_name"] if audio_streams else None,
-        bitrate=int(data["format"].get("bit_rate", 0)) // 1000,
+        codec=video_stream.get("codec_name", "unknown"),
+        audio_codec=audio_streams[0].get("codec_name") if audio_streams else None,
+        bitrate=bitrate,
     )
+

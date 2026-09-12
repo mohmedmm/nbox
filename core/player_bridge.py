@@ -5,9 +5,15 @@ from __future__ import annotations
 import os
 import shutil
 import subprocess
-import winreg
+import sys
 from dataclasses import dataclass
 from typing import Sequence
+
+try:
+    import winreg
+except ImportError:
+    winreg = None  # type: ignore[assignment]
+
 
 
 @dataclass
@@ -102,6 +108,8 @@ class DetectedPlayer:
 
 
 def _check_app_paths_registry(exe_name: str) -> str | None:
+    if winreg is None or sys.platform != "win32":
+        return None
     for root in (winreg.HKEY_LOCAL_MACHINE, winreg.HKEY_CURRENT_USER):
         key_path = rf"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{exe_name}"
         try:
@@ -112,6 +120,7 @@ def _check_app_paths_registry(exe_name: str) -> str | None:
         except (FileNotFoundError, OSError):
             continue
     return None
+
 
 
 def detect_installed_players() -> list[DetectedPlayer]:
